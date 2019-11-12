@@ -17,17 +17,15 @@ print('Data shape', data.shape)
 #What are the features? What are their labels? Get rid of rubbish from data
 features = data.iloc[:,2:207]
 label = data.iloc[:,1]
+features_log = np.log10(features)
+
 
 print('Dimensions of data', np.shape(data))
 dat = data.iloc[:, 1:208]
 
-from sklearn.preprocessing import StandardScaler
-scale = StandardScaler()
-features_scaled = scale.fit(features)
-features_scaled_df = pd.DataFrame(features)
 
 #Split data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(features, label, test_size=0.25, random_state=69)
+X_train, X_test, y_train, y_test = train_test_split(features_log, label, test_size=0.25, random_state=69)
 print('Training Features',np.shape(X_train))
 print('Training Labels', np.shape(X_test))
 print('Testing Features', np.shape(y_train))
@@ -51,7 +49,7 @@ for score in scores:
     print("Best parameters set found on training set:" + '%s' % clf.best_params_)
 
 #Let's fit the classifiers
-SVM = SVC(kernel = "rbf", gamma=0.001, C=1, max_iter=1, random_state=69)
+SVM = SVC(kernel = "rbf", gamma=0.001, C=10, max_iter=1, random_state=69)
 SVM.fit(X_train, y_train)
 y_pred = SVM.predict(X_test)
 print(metrics.confusion_matrix(y_test, y_pred))
