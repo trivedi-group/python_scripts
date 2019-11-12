@@ -6,12 +6,7 @@ import numpy as np
 import sklearn
 from sklearn import metrics
 from sklearn import model_selection
-from sklearn import discriminant_analysis
 from sklearn.model_selection import train_test_split
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 
 
