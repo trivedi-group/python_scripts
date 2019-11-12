@@ -15,19 +15,28 @@ print('Data shape', data.shape)
 
 # What are the features? What are their labels? Get rid of rubbish from data
 features = data.iloc[:,2:207]
+features = np.log10(features)
 label = data.iloc[:,1]
 
-print('Dimensions of data', np.shape(data))
-dat = data.iloc[:, 1:208]
+# Creating training and test sets
+X_train, X_test, y_train, y_test = train_test_split(features, label, test_size=0.25, random_state=69)
 
-from sklearn.preprocessing import StandardScaler
-scale = StandardScaler()
-features_scaled = scale.fit(features)
-features_scaled_df = pd.DataFrame(features)
+# Ensemble learning with boostrap validation
+from sklearn import ensemble
+from sklearn.ensemble import RandomForestClassifier
+tree = RandomForestClassifier(n_estimators=10, bootstrap=True, oob_score=True)
+tree_model = tree.fit(X_train, y_train)
+y_pred = tree.predict(X_test)
 
-#Split data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(features_scaled_df, label, test_size=0.25, random_state=69)
-print('Training Features',np.shape(X_train))
-print('Training Labels', np.shape(X_test))
-print('Testing Features', np.shape(y_train))
-print('Testing Labels', np.shape(y_test))
+from sklearn.metrics import classification_report
+report = classification_report(y_test, y_pred)
+print(report)
+
+#important features
+imp_features = tree_model.feature_importances_
+imp_features_sorted = np.sort(imp_features)
+print(np.transpose(imp_features_sorted))
+
+
+
+
