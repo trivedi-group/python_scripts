@@ -147,3 +147,32 @@ LDA = LinearDiscriminantAnalysis()
 KN = KNeighborsClassifier(n_neighbors=5)
 DecTree = DecisionTreeClassifier()
 NBayes = GaussianNB()
+
+import yellowbrick
+
+from yellowbrick.classifier import ClassificationReport
+#visualizer = ClassificationReport(MODEL)
+#visualizer.fit_transform(X_train, y_train)
+#visualizer.score(X_train,y_train)
+#visualizer.show()
+
+from yellowbrick.features import Rank2D
+visualizer = Rank2D(algorithm="pearson")
+visualizer.fit_transform(features)
+visualizer.show()
+
+from yellowbrick.regressor import ResidualsPlot
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+visualizer = ResidualsPlot(LinearRegression())
+visualizer.fit(X_train, y_train)
+visualizer.score(X_test, y_test)
+visualizer.show()
+
+
+from sklearn.linear_model import Ridge
+from yellowbrick.regressor import PredictionError
+visualizer = PredictionError(Ridge(alpha=3.181))
+visualizer.fit(X_train, y_train)
+visualizer.score(X_test, y_test)
+visualizer.show()
